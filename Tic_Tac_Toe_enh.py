@@ -44,6 +44,8 @@ class TicTacToe:
         self.frame.pack(expand=True)
 
         self.create_buttons()
+
+        
     
     def run(self):
         #Starts the Tkinter event loop.
@@ -73,6 +75,7 @@ class TicTacToe:
     def handle_click(self, i, j):
         #Logic for when a player clicks a square.
         # 1. Check if the move is valid (cell is empty)
+        
         if self.buttons[i][j]["text"] == "":
             
             # 2. Place mark and style based on current player
