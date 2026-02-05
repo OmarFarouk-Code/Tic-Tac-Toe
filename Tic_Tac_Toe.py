@@ -4,6 +4,8 @@ from tkinter import messagebox
 class TicTacToe:
     def __init__ (self):
 
+        self.x_score = 0 
+        self.o_score = 0
         self.current_player = "X"
         self.window = tk.Tk()
         self.window.title ("Tic Tac Toe")
@@ -11,7 +13,8 @@ class TicTacToe:
 
         self.frame = tk.Frame (self.window , width = 400 , height = 400)
         self.frame.pack()
-
+        self.label = tk.Label(self.window , text = f"Player X Score: {self.x_score}\nPlayer O Score: {self.o_score}" , font = ("Arial", 14 , "bold") )
+        self.label.pack(pady=10)
         self.create_buttons()
     
     def run (self):
@@ -35,8 +38,6 @@ class TicTacToe:
     def handle_click (self, i, j):
         if self.buttons[i][j]["text"] == "":
 
-            
-
             if self.current_player == "X":
 
                 self.buttons[i][j].config(text=self.current_player , fg="blue")
@@ -46,8 +47,10 @@ class TicTacToe:
                 self.current_player = "X"
             
             if self.check_for_winner():
-
-                messagebox.showinfo("Game Over", f"Player {self.buttons[i][j]['text']} wins!")
+                
+                winner = self.buttons[i][j]["text"]
+                messagebox.showinfo("Game Over", f"Player {winner} wins!")
+                self.update_score(winner)
                 self.reset_game()
 
             elif self.check_for_draw():
@@ -67,6 +70,7 @@ class TicTacToe:
                 self.buttons[i][0].config(bg="Green")
                 self.buttons[i][1].config(bg="Green")
                 self.buttons[i][2].config(bg="Green")
+               
                 return True
         
         #Check Columns
@@ -76,6 +80,7 @@ class TicTacToe:
                 self.buttons[0][j].config(bg="Green")
                 self.buttons[1][j].config(bg="Green")
                 self.buttons[2][j].config(bg="Green")
+                
                 return True
         
         #Check Diagonals
@@ -84,6 +89,7 @@ class TicTacToe:
             self.buttons[0][0].config(bg="Green")
             self.buttons[1][1].config(bg="Green")
             self.buttons[2][2].config(bg="Green")
+            
             return True
         
         if self.buttons[0][2]["text"] == self.buttons[1][1]["text"] == self.buttons[2][0]["text"] != "":
@@ -91,6 +97,7 @@ class TicTacToe:
             self.buttons[0][2].config(bg="Green")
             self.buttons[1][1].config(bg="Green")
             self.buttons[2][0].config(bg="Green")
+            
             return True
 
         return False
@@ -108,6 +115,16 @@ class TicTacToe:
                 self.buttons[i][j].config(text="" , bg = "White")
         self.current_player = "X"
 
+    def update_score(self, winner):
+        if winner == "X":
+            self.x_score += 1
+        elif winner == "O":
+            self.o_score += 1
+        
+        # Update the label to show new totals
+        self.label.config(text=f"Player X Score: {self.x_score}\nPlayer O Score: {self.o_score}")
+        
+        
 
 if __name__ == "__main__":
     game = TicTacToe()
