@@ -23,6 +23,16 @@ class TicTacToe:
             bg="#f0f0f0",
             fg="#333333"
         )
+        
+        # Current Player Indicator
+        self.turn_label = tk.Label(
+            self.window,
+            text="Current Turn: X",
+            font=("Helvetica", 14, "bold"),
+            bg="#f0f0f0",
+            fg="#2196F3"
+        )
+        
         # 3. Restart Button (The New Feature)
         self.restart_btn = tk.Button(
             self.window,
@@ -38,6 +48,7 @@ class TicTacToe:
         
         self.restart_btn.pack(pady=20)
         self.label.pack(pady=20)
+        self.turn_label.pack(pady=10)
 
         # Game Board Container
         self.frame = tk.Frame(self.window, bg="#333333", bd=2) # Dark border for grid
@@ -97,6 +108,7 @@ class TicTacToe:
             # 5. Switch turn if game continues
             else:
                 self.current_player = "O" if self.current_player == "X" else "X"
+                self.update_turn_indicator()
         else:
             messagebox.showwarning("Invalid Move", "That spot is taken!")
 
@@ -144,6 +156,7 @@ class TicTacToe:
             for j in range(3):
                 self.buttons[i][j].config(text="", bg="white")
         self.current_player = "X"
+        self.update_turn_indicator()
 
     def update_score(self, winner):
         #Increments the winner's score and updates the UI label.
@@ -152,6 +165,14 @@ class TicTacToe:
         else:
             self.o_score += 1
         self.label.config(text=f"X Score: {self.x_score}  |  O Score: {self.o_score}")
+
+    def update_turn_indicator(self):
+        #Updates the turn indicator label with current player and color.
+        color = "#2196F3" if self.current_player == "X" else "#F44336"
+        self.turn_label.config(
+            text=f"Current Turn: {self.current_player}",
+            fg=color
+        )
 
     def restart_full_game(self):
         # 1. Ask for confirmation so points aren't lost by accident
